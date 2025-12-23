@@ -2,45 +2,40 @@ file:///C:/Users/Paul/Desktop/website/index.html
 
 <html>
 <head>
-
-
-
-
-
 <title>bennito ist doof</title>
 </head>
 <style>
 .button {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 14px;
+    justify-content: center;
 
-    padding: 40px 45px;
-    font-size: 26px;
+    width: 300px;        /* kannst du ändern */
+    height: 120px;       /* kannst du ändern */
+
+    font-size: 28px;
     font-weight: bold;
     color: white;
     text-decoration: none;
-    border-radius: 16px;
+    border-radius: 20px;
+    overflow: hidden;
 
-    background: #0078ff; /* Einfacher blauer Button */
-    box-shadow: 0 0 20px #0078ff;
+    background-image: url("goofy.webp");
+    background-size: cover;      /* Bild füllt den ganzen Button */
+    background-position: center; /* Bild wird zentriert */
+    background-repeat: no-repeat;
 
+    box-shadow: 0 0 25px #0078ff;
     transition: 0.2s;
 }
 
 .button:hover {
     transform: scale(1.08);
-    box-shadow: 0 0 35px #3399ff;
-}
-
-/* Dein Bild */
-.mascot {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
+    box-shadow: 0 0 40px #3399ff;
 }
 </style>
+
     
 <body>
 <h1>Guten tag danke das sie meine websitebesuchen </h1>
@@ -61,6 +56,7 @@ Würde mich freuen
 </html>
 
  
+
 
 
 
