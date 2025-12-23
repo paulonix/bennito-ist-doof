@@ -3,43 +3,43 @@ file:///C:/Users/Paul/Desktop/website/index.html
 <html>
 <head>
 <style>
+@keyframes rainbowGlow {
+    0% { box-shadow: 0 0 25px red, 0 0 50px orange, 0 0 75px yellow; }
+    20% { box-shadow: 0 0 25px orange, 0 0 50px yellow, 0 0 75px green; }
+    40% { box-shadow: 0 0 25px yellow, 0 0 50px green, 0 0 75px cyan; }
+    60% { box-shadow: 0 0 25px green, 0 0 50px cyan, 0 0 75px blue; }
+    80% { box-shadow: 0 0 25px cyan, 0 0 50px blue, 0 0 75px purple; }
+    100% { box-shadow: 0 0 25px purple, 0 0 50px red, 0 0 75px orange; }
+}
+
+@keyframes rainbowBackground {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
 .button {
     display: inline-block;
-    padding: 50px 55px;
-    background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, purple);
+    padding: 18px 32px;
+    font-size: 24px;
+    font-weight: bold;
     color: white;
     text-decoration: none;
     border-radius: 12px;
-    font-size: 40px;
-    font-weight: bold;
 
-    /* Regenbogen-Glow */
-    box-shadow:
-        0 0 25px red,
-        0 0 40px orange,
-        0 0 55px yellow,
-        0 0 70px green,
-        0 0 85px cyan,
-        0 0 100px blue,
-        0 0 120px purple;
+    /* Regenbogen-Verlauf */
+    background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, purple);
+    background-size: 200% 200%;
 
-    transition: 0.25s;
+    /* Animationen */
+    animation: rainbowGlow 2s infinite linear, rainbowBackground 4s infinite linear;
+    transition: 0.2s;
 }
 
 .button:hover {
-    /* regenbogen-glow */
-    box-shadow:
-        0 0 40px red,
-        0 0 70px orange,
-        0 0 100px yellow,
-        0 0 130px green,
-        0 0 160px cyan,
-        0 0 190px blue,
-        0 0 220px purple;
-
     transform: scale(1.1);
 }
 </style>
+
 
 
 <title>bennito ist doof</title>
@@ -58,6 +58,7 @@ Würde mich freuen
 </html>
 
  
+
 
 
 
