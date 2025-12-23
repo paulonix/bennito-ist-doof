@@ -3,35 +3,54 @@ file:///C:/Users/Paul/Desktop/website/index.html
 <html>
 <head>
 <style>
-@keyframes rainbowGlow {
-    0% { box-shadow: 0 0 25px red, 0 0 50px orange, 0 0 75px yellow; }
-    20% { box-shadow: 0 0 25px orange, 0 0 50px yellow, 0 0 75px green; }
-    40% { box-shadow: 0 0 25px yellow, 0 0 50px green, 0 0 75px cyan; }
-    60% { box-shadow: 0 0 25px green, 0 0 50px cyan, 0 0 75px blue; }
-    80% { box-shadow: 0 0 25px cyan, 0 0 50px blue, 0 0 75px purple; }
-    100% { box-shadow: 0 0 25px purple, 0 0 50px red, 0 0 75px orange; }
+/* Feuer-Glow Animation */
+@keyframes fireGlow {
+    0% {
+        box-shadow:
+            0 0 20px #ff4500,
+            0 0 40px #ff8c00,
+            0 0 60px #ffa500;
+    }
+    50% {
+        box-shadow:
+            0 0 30px #ff8c00,
+            0 0 60px #ffa500,
+            0 0 90px #ffd700;
+    }
+    100% {
+        box-shadow:
+            0 0 20px #ff4500,
+            0 0 40px #ff8c00,
+            0 0 60px #ffa500;
+    }
 }
 
-@keyframes rainbowBackground {
+/* Feuer-Hintergrund Animation */
+@keyframes fireBackground {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
 }
 
 .button {
-    display: inline-block;
-    padding: 18px 32px;
-    font-size: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 30px 34px;
+    font-size: 26px;
     font-weight: bold;
     color: white;
     text-decoration: none;
     border-radius: 12px;
 
-    /* Regenbogen-Verlauf */
-    background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, purple);
+    /* Feuer-Farben */
+    background: linear-gradient(90deg, #ff0000, #ff4500, #ff8c00, #ffa500, #ffd700);
     background-size: 200% 200%;
 
     /* Animationen */
-    animation: rainbowGlow 2s infinite linear, rainbowBackground 4s infinite linear;
+    animation: fireGlow 1.2s infinite ease-in-out,
+               fireBackground 3s infinite linear;
+
     transition: 0.2s;
 }
 
@@ -39,6 +58,7 @@ file:///C:/Users/Paul/Desktop/website/index.html
     transform: scale(1.1);
 }
 </style>
+
 
 
 
@@ -52,12 +72,17 @@ file:///C:/Users/Paul/Desktop/website/index.html
 Würde mich freuen
 </div>
 <h3>klicke auf den link</h3>
-<a href="foto.jpg" class="button">Hier klicken</a>
+<a<a href="foto.jpg" class="button">
+    <span class="pig">🐷</span>
+    Hier klicken
+</a>
+
 
 </body>
 </html>
 
  
+
 
 
 
