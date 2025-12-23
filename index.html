@@ -3,22 +3,24 @@ file:///C:/Users/Paul/Desktop/website/index.html
 <html>
 <head>
 <style>
-/* Flammen-Animation */
+/* Große, flackernde Flammen */
 @keyframes flames {
     0% { filter: hue-rotate(0deg) brightness(1); }
-    50% { filter: hue-rotate(-20deg) brightness(1.4); }
+    25% { filter: hue-rotate(-10deg) brightness(1.4); }
+    50% { filter: hue-rotate(-20deg) brightness(1.7); }
+    75% { filter: hue-rotate(-10deg) brightness(1.3); }
     100% { filter: hue-rotate(0deg) brightness(1); }
 }
 
-/* Partikel-Animation */
-@keyframes particles {
+/* Partikel fliegen nach oben */
+@keyframes particleFly {
     0% {
-        opacity: 0.8;
+        opacity: 1;
         transform: translateY(0) scale(1);
     }
     100% {
         opacity: 0;
-        transform: translateY(-60px) scale(0.3);
+        transform: translateY(-90px) scale(0.3);
     }
 }
 
@@ -28,53 +30,49 @@ file:///C:/Users/Paul/Desktop/website/index.html
     align-items: center;
     gap: 12px;
 
-    padding: 20px 36px;
-    font-size: 26px;
+    padding: 22px 40px;
+    font-size: 28px;
     font-weight: bold;
     color: white;
     text-decoration: none;
-    border-radius: 14px;
+    border-radius: 16px;
 
     background: linear-gradient(90deg, #ff0000, #ff4500, #ff8c00, #ffd700);
     background-size: 200% 200%;
 
-    animation: flames 1.2s infinite ease-in-out;
+    animation: flames 1.1s infinite ease-in-out;
     box-shadow:
-        0 0 25px #ff4500,
-        0 0 50px #ff8c00,
-        0 0 80px #ffd700;
+        0 0 40px #ff4500,
+        0 0 80px #ff8c00,
+        0 0 120px #ffd700;
 
     overflow: hidden;
     transition: 0.2s;
 }
 
 .button:hover {
-    transform: scale(1.1);
+    transform: scale(1.12);
 }
 
-/* Partikel */
-.button::before,
-.button::after {
-    content: "";
+/* Viele Partikel erzeugen */
+.button span.particle {
     position: absolute;
-    left: 50%;
-    width: 6px;
-    height: 6px;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
     background: #ffd700;
     border-radius: 50%;
     opacity: 0;
-
-    animation: particles 1s infinite ease-out;
+    animation: particleFly 1.2s infinite ease-out;
 }
 
-/* Zwei Partikel mit unterschiedlichen Zeiten */
-.button::before {
-    animation-delay: 0s;
-}
-
-.button::after {
-    animation-delay: 0.4s;
-}
+/* Unterschiedliche Partikel-Positionen + Verzögerungen */
+.button span.p1 { left: 20%; animation-delay: 0s; }
+.button span.p2 { left: 40%; animation-delay: 0.3s; }
+.button span.p3 { left: 60%; animation-delay: 0.6s; }
+.button span.p4 { left: 80%; animation-delay: 0.1s; }
+.button span.p5 { left: 30%; animation-delay: 0.5s; }
+.button span.p6 { left: 70%; animation-delay: 0.8s; }
 </style>
 
 
@@ -98,6 +96,7 @@ Würde mich freuen
 </html>
 
  
+
 
 
 
