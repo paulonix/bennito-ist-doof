@@ -11,30 +11,44 @@ file:///C:/Users/Paul/Desktop/website/index.html
     align-items: center;
     justify-content: center;
 
-    width: 300px;        /* kannst du ändern */
-    height: 120px;       /* kannst du ändern */
+    width: 300px;
+    height: 140px;
 
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
     color: white;
     text-decoration: none;
+
     border-radius: 20px;
     overflow: hidden;
 
     background-image: url("goofy.webp");
-    background-size: cover;      /* Bild füllt den ganzen Button */
-    background-position: center; /* Bild wird zentriert */
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 
-    box-shadow: 0 0 25px #0078ff;
-    transition: 0.2s;
+    /* 3D-Effekt */
+    box-shadow:
+        0 8px 0 #0044aa,      /* harte 3D-Kante */
+        0 15px 25px rgba(0,0,0,0.4); /* weicher Schatten */
+
+    transition: 0.2s ease-out;
 }
 
 .button:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 40px #3399ff;
+    transform: translateY(-6px); /* Button springt hoch */
+    box-shadow:
+        0 14px 0 #003388,
+        0 25px 35px rgba(0,0,0,0.5);
+}
+
+.button:active {
+    transform: translateY(2px); /* gedrückt */
+    box-shadow:
+        0 4px 0 #002266,
+        0 10px 15px rgba(0,0,0,0.4);
 }
 </style>
+
 
     
 <body>
@@ -46,9 +60,9 @@ Würde mich freuen
 </div>
 <h3>klicke auf den link</h3>
 <a href="foto.jpg" class="button">
-    <img src="goofy.webp" class="mascot" alt="Goofy">
     Hier klicken
 </a>
+
 
 
 
@@ -56,6 +70,7 @@ Würde mich freuen
 </html>
 
  
+
 
 
 
