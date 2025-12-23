@@ -3,61 +3,80 @@ file:///C:/Users/Paul/Desktop/website/index.html
 <html>
 <head>
 <style>
-/* Feuer-Glow Animation */
-@keyframes fireGlow {
-    0% {
-        box-shadow:
-            0 0 20px #ff4500,
-            0 0 40px #ff8c00,
-            0 0 60px #ffa500;
-    }
-    50% {
-        box-shadow:
-            0 0 30px #ff8c00,
-            0 0 60px #ffa500,
-            0 0 90px #ffd700;
-    }
-    100% {
-        box-shadow:
-            0 0 20px #ff4500,
-            0 0 40px #ff8c00,
-            0 0 60px #ffa500;
-    }
+/* Flammen-Animation */
+@keyframes flames {
+    0% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(-20deg) brightness(1.4); }
+    100% { filter: hue-rotate(0deg) brightness(1); }
 }
 
-/* Feuer-Hintergrund Animation */
-@keyframes fireBackground {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
+/* Partikel-Animation */
+@keyframes particles {
+    0% {
+        opacity: 0.8;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-60px) scale(0.3);
+    }
 }
 
 .button {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 12px;
 
-    padding: 30px 34px;
+    padding: 20px 36px;
     font-size: 26px;
     font-weight: bold;
     color: white;
     text-decoration: none;
-    border-radius: 12px;
+    border-radius: 14px;
 
-    /* Feuer-Farben */
-    background: linear-gradient(90deg, #ff0000, #ff4500, #ff8c00, #ffa500, #ffd700);
+    background: linear-gradient(90deg, #ff0000, #ff4500, #ff8c00, #ffd700);
     background-size: 200% 200%;
 
-    /* Animationen */
-    animation: fireGlow 1.2s infinite ease-in-out,
-               fireBackground 3s infinite linear;
+    animation: flames 1.2s infinite ease-in-out;
+    box-shadow:
+        0 0 25px #ff4500,
+        0 0 50px #ff8c00,
+        0 0 80px #ffd700;
 
+    overflow: hidden;
     transition: 0.2s;
 }
 
 .button:hover {
     transform: scale(1.1);
 }
+
+/* Partikel */
+.button::before,
+.button::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: #ffd700;
+    border-radius: 50%;
+    opacity: 0;
+
+    animation: particles 1s infinite ease-out;
+}
+
+/* Zwei Partikel mit unterschiedlichen Zeiten */
+.button::before {
+    animation-delay: 0s;
+}
+
+.button::after {
+    animation-delay: 0.4s;
+}
 </style>
+
 
 
 
@@ -72,16 +91,14 @@ file:///C:/Users/Paul/Desktop/website/index.html
 Würde mich freuen
 </div>
 <h3>klicke auf den link</h3>
-<a<a href="foto.jpg" class="button">
-    <span class="pig">🐷</span>
-    Hier klicken
-</a>
+<a href="foto.jpg" class="button">Hier klicken</a>
 
 
 </body>
 </html>
 
  
+
 
 
 
