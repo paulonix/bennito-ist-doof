@@ -2,78 +2,6 @@ file:///C:/Users/Paul/Desktop/website/index.html
 
 <html>
 <head>
-<style>
-/* Große, flackernde Flammen */
-@keyframes flames {
-    0% { filter: hue-rotate(0deg) brightness(1); }
-    25% { filter: hue-rotate(-10deg) brightness(1.4); }
-    50% { filter: hue-rotate(-20deg) brightness(1.7); }
-    75% { filter: hue-rotate(-10deg) brightness(1.3); }
-    100% { filter: hue-rotate(0deg) brightness(1); }
-}
-
-/* Partikel fliegen nach oben */
-@keyframes particleFly {
-    0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-90px) scale(0.3);
-    }
-}
-
-.button {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 22px 40px;
-    font-size: 28px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-    border-radius: 16px;
-
-    background: linear-gradient(90deg, #ff0000, #ff4500, #ff8c00, #ffd700);
-    background-size: 200% 200%;
-
-    animation: flames 1.1s infinite ease-in-out;
-    box-shadow:
-        0 0 40px #ff4500,
-        0 0 80px #ff8c00,
-        0 0 120px #ffd700;
-
-    overflow: hidden;
-    transition: 0.2s;
-}
-
-.button:hover {
-    transform: scale(1.12);
-}
-
-/* Viele Partikel erzeugen */
-.button span.particle {
-    position: absolute;
-    bottom: 0;
-    width: 10px;
-    height: 10px;
-    background: #ffd700;
-    border-radius: 50%;
-    opacity: 0;
-    animation: particleFly 1.2s infinite ease-out;
-}
-
-/* Unterschiedliche Partikel-Positionen + Verzögerungen */
-.button span.p1 { left: 20%; animation-delay: 0s; }
-.button span.p2 { left: 40%; animation-delay: 0.3s; }
-.button span.p3 { left: 60%; animation-delay: 0.6s; }
-.button span.p4 { left: 80%; animation-delay: 0.1s; }
-.button span.p5 { left: 30%; animation-delay: 0.5s; }
-.button span.p6 { left: 70%; animation-delay: 0.8s; }
-</style>
 
 
 
@@ -81,6 +9,39 @@ file:///C:/Users/Paul/Desktop/website/index.html
 
 <title>bennito ist doof</title>
 </head>
+<style>
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 20px 36px;
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    border-radius: 16px;
+
+    background: #0078ff; /* Einfacher blauer Button */
+    box-shadow: 0 0 20px #0078ff;
+
+    transition: 0.2s;
+}
+
+.button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px #3399ff;
+}
+
+/* Dein Bild */
+.mascot {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+</style>
+    
 <body>
 <h1>Guten tag danke das sie meine websitebesuchen </h1>
 <h2>Noch hat diese website keinen nutzen und wird noch verbesert</h2>
@@ -89,23 +50,16 @@ file:///C:/Users/Paul/Desktop/website/index.html
 Würde mich freuen
 </div>
 <h3>klicke auf den link</h3>
-<a href="foto.jpg" class="button">
-    Hier klicken
+<img src="goofy.png" class="mascot" alt="Goofy">
 
-    <!-- Partikel -->
-    <span class="particle p1"></span>
-    <span class="particle p2"></span>
-    <span class="particle p3"></span>
-    <span class="particle p4"></span>
-    <span class="particle p5"></span>
-    <span class="particle p6"></span>
-</a>
+
 
 
 </body>
 </html>
 
  
+
 
 
 
