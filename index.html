@@ -90,23 +90,31 @@ nav ul li a:hover {
 </style>
 <body>
 
-   <button id="runBtn">Klick mich!</button>
+   <button class="runBtn">Klick mich!</button>
 
 <script>
-const btn = document.getElementById("runBtn");
+function makeRunButton(btn) {
+    btn.style.position = "absolute";
 
-btn.style.position = "absolute";
-btn.style.left = "50px";
-btn.style.top = "50px";
+    btn.addEventListener("mouseover", () => {
+        // Neue Position
+        const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - btn.offsetHeight);
 
-btn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
 
-    btn.style.left = x + "px";
-    btn.style.top = y + "px";
-});
+        // Klonen (verdoppeln)
+        const clone = btn.cloneNode(true);
+        document.body.appendChild(clone);
+        makeRunButton(clone);
+    });
+}
+
+// Start-Button aktivieren
+document.querySelectorAll(".runBtn").forEach(makeRunButton);
 </script>
+
  
 
     
@@ -138,6 +146,7 @@ document.getElementById("secretBtn").addEventListener("click", function() {
 </html>
 
  
+
 
 
 
