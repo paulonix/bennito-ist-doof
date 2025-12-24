@@ -42,11 +42,23 @@ nav ul li a:hover {
               </ul>
     </nav>
   
+  <img src="kaboom-rico.gif" class="cursor-gif">
+
+  <style>.cursor-gif {
+    position: fixed;
+    width: 120px;   /* Größe ändern */
+    height: 120px;
+    pointer-events: none; /* wichtig: GIF blockiert keine Klicks */
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+</style>  
+  
 <div class="goofy-full">
     <h1>Goofy ist toll</h1>
     <p>Goofy ist super toll</p>
   
-   <a href="kaboom-rico.gif" class="button"><class="gif-icon">
+   <a href="kaboom-rico.gif" class="button">
     Hier klicken
  </a> 
   </div>
@@ -83,16 +95,15 @@ nav ul li a:hover {
     margin-bottom: 40px;
 }
 </style>
-  <style>
-.gif-icon {
-    width: 1000px;
-    height: 1000px;
-    border-radius: 10px;
-    margin-right: 12px;
-    object-fit: cover;
-}
-</style>
- 
   
+ 
+ <script>
+document.addEventListener("mousemove", function(e) {
+    const gif = document.querySelector(".cursor-gif");
+    gif.style.left = e.pageX + "px";
+    gif.style.top = e.pageY + "px";
+});
+</script>
+ 
 
 </body>
