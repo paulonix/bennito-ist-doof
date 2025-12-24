@@ -89,6 +89,27 @@ nav ul li a:hover {
 }
 </style>
 <body>
+
+   <button id="runBtn">Klick mich!</button>
+
+<script>
+const btn = document.getElementById("runBtn");
+
+btn.style.position = "absolute";
+btn.style.left = "50px";
+btn.style.top = "50px";
+
+btn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+});
+</script>
+ 
+
+    
     
 
    <nav>
@@ -99,20 +120,28 @@ nav ul li a:hover {
        
 </nav>
  
-<h1>Guten tag danke das sie meine websitebesuchen </h1>
+<h1 id="secretBtn">Willkommen auf meiner Website</h1>
+
+<script>
+document.getElementById("secretBtn").addEventListener("click", function() {
+    window.location.href = "https://arcade.makecode.com/S96019-89332-34904-40805"; // Zielseite hier ändern
+});
+</script>
+
+
+    
 <h2>Noch hat diese website keinen nutzen und wird noch verbesert</h2>
 <p>Wenn du möchtest klicke auf den link.</p>
 <div>
 Würde mich freuen
 </div>
 <h3>klicke auf den link</h3>
-<a href="https://arcade.makecode.com/S43246-00239-99133-04106" class="button">
-    Hier klicken
-</a>
+
 </body>
 </html>
 
  
+
 
 
 
