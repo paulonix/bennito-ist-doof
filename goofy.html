@@ -43,10 +43,49 @@ nav ul li a:hover {
             
               </ul>
     </nav>
-  
+ <h1>Fang den Goofy!</h1>
+<p>Punkte: <span id="score">0</span></p>
+
+<img id="goofy" src="goofy2.gif" alt="Goofy" width="150">
+
+<script>
+let score = 0;
+let speed = 800; // Startgeschwindigkeit (ms)
+
+const goofy = document.getElementById("goofy");
+const scoreDisplay = document.getElementById("score");
+
+// Goofy positionieren
+function moveGoofy() {
+    const x = Math.random() * (window.innerWidth - goofy.width);
+    const y = Math.random() * (window.innerHeight - goofy.height);
+
+    goofy.style.position = "absolute";
+    goofy.style.left = x + "px";
+    goofy.style.top = y + "px";
+}
+
+// Wenn man Goofy fängt
+goofy.addEventListener("click", () => {
+    score++;
+    scoreDisplay.textContent = score;
+
+    // Goofy wird schneller
+    speed = Math.max(200, speed - 50);
+
+    moveGoofy();
+});
+
+// Goofy rennt automatisch weg
+setInterval(moveGoofy, speed);
+
+// Startposition
+moveGoofy();
+</script>
+ 
 
 <div class="goofy-full">
-    <h1>Goofy ist toll</h1>
+    <h2>Goofy ist toll</h1>
     <p>Goofy ist super toll</p>
   
    <a href="https://arcade.makecode.com/S02756-30879-08206-05790" class="button">
