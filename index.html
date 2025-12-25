@@ -136,9 +136,32 @@ document.getElementById("secretBtn").addEventListener("click", function() {
 });
 </script>
 
+<h2>Wähle eine Farbe</h2>
+
+<table id="colorTable" border="1" cellpadding="10">
+    <tr>
+        <td data-color="blue" style="background: blue; color: white;">Blau</td>
+        <td data-color="red" style="background: red; color: white;">Rot</td>
+        <td data-color="green" style="background: green; color: white;">Grün</td>
+    </tr>
+    <tr>
+        <td data-color="yellow" style="background: yellow;">Gelb</td>
+        <td data-color="purple" style="background: purple; color: white;">Lila</td>
+        <td data-color="orange" style="background: orange;">Orange</td>
+    </tr>
+</table>
+
+<script>
+document.querySelectorAll("#colorTable td").forEach(cell => {
+    cell.addEventListener("click", () => {
+        const color = cell.getAttribute("data-color");
+        document.body.style.background = color;
+    });
+});
+</script>
 
     
-<h2>Noch hat diese website keinen nutzen und wird noch verbesert</h2>
+<h3>Noch hat diese website keinen nutzen und wird noch verbesert</h3>
     <i> Noch hat diese website keien nutzen und wird noch verbessert</i>
 <div>  danke das sie hier sind </div>
 
@@ -147,6 +170,7 @@ document.getElementById("secretBtn").addEventListener("click", function() {
 </html>
 
  
+
 
 
 
