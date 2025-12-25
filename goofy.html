@@ -46,21 +46,28 @@ nav ul li a:hover {
  <h1>Fang den Goofy!</h1>
 <p>Punkte: <span id="score">0</span></p>
 
-<img id="goofy" src="goofy2.gif" alt="Goofy" width="150">
+<img id="goofy" src="goofy.png" alt="Goofy" width="150">
+
+<style>
+#goofy {
+    position: absolute;
+    transition: left 0.4s linear, top 0.4s linear; /* flüssige Bewegung */
+    cursor: pointer;
+}
+</style>
 
 <script>
 let score = 0;
-let speed = 800; // Startgeschwindigkeit (ms)
+let speed = 1000; // Bewegungsgeschwindigkeit (ms)
 
 const goofy = document.getElementById("goofy");
 const scoreDisplay = document.getElementById("score");
 
-// Goofy positionieren
+// Goofy bewegt sich flüssig zu neuer Position
 function moveGoofy() {
     const x = Math.random() * (window.innerWidth - goofy.width);
     const y = Math.random() * (window.innerHeight - goofy.height);
 
-    goofy.style.position = "absolute";
     goofy.style.left = x + "px";
     goofy.style.top = y + "px";
 }
@@ -71,17 +78,18 @@ goofy.addEventListener("click", () => {
     scoreDisplay.textContent = score;
 
     // Goofy wird schneller
-    speed = Math.max(200, speed - 50);
+    speed = Math.max(300, speed - 80);
 
     moveGoofy();
 });
 
-// Goofy rennt automatisch weg
+// Goofy rennt automatisch
 setInterval(moveGoofy, speed);
 
 // Startposition
 moveGoofy();
 </script>
+
  
 
 <div class="goofy-full">
