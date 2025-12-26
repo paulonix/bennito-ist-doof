@@ -167,84 +167,139 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 
 
 
-<h2>Elastisches Gesicht</h2>
+<h2>Ultra‑Realistisches Slime‑Gesicht</h2>
 
-<svg id="gooFace" width="300" height="300" viewBox="0 0 300 300">
-    <!-- Kreis-Gesicht -->
-    <circle id="face" cx="150" cy="150" r="100" fill="#ffdd99" />
-
-    <!-- Augen -->
-    <circle cx="120" cy="130" r="12" fill="white"/>
-    <circle cx="180" cy="130" r="12" fill="white"/>
-    <circle cx="120" cy="130" r="6" fill="black"/>
-    <circle cx="180" cy="130" r="6" fill="black"/>
-
-    <!-- Mund -->
-    <path id="mouth" d="M110 190 Q150 220 190 190" stroke="#8a3a1b" stroke-width="6" fill="none"/>
-</svg>
+<canvas id="slimeFace" width="350" height="350"></canvas>
 
 <style>
-#gooFace {
-    user-select: none;
+#slimeFace {
+    display: block;
+    margin: 40px auto;
+    background: #ffe7a8;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(0,0,0,0.25);
     cursor: grab;
 }
-#gooFace.dragging {
+#slimeFace.dragging {
     cursor: grabbing;
 }
 </style>
 
 <script>
-const face = document.getElementById("face");
-let dragging = false;
-let offsetX = 0;
-let offsetY = 0;
+const canvas = document.getElementById("slimeFace");
+const ctx = canvas.getContext("2d");
 
-let originalCX = 150;
-let originalCY = 150;
+let points = [];
+let draggingPoint = null;
 
-face.addEventListener("mousedown", (e) => {
-    dragging = true;
-    document.getElementById("gooFace").classList.add("dragging");
+// Gesichtsmittelpunkt
+const cx = canvas.width / 2;
+const cy = canvas.height / 2;
+const radius = 120;
+
+// 32 Punkte rund um das Gesicht
+for (let i = 0; i < 32; i++) {
+    const angle = (i / 32) * Math.PI * 2;
+    points.push({
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius,
+        ox: cx + Math.cos(angle) * radius, // Originalposition
+        oy: cy + Math.sin(angle) * radius
+    });
+}
+
+function drawFace() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Slime‑Form zeichnen
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "#ffdd99";
+    ctx.fill();
+
+    // Augen
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(cx - 40, cy - 20, 18, 0, Math.PI * 2);
+    ctx.arc(cx + 40, cy - 20, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(cx - 40, cy - 20, 8, 0, Math.PI * 2);
+    ctx.arc(cx + 40, cy - 20, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Mund
+    ctx.strokeStyle = "#8a3a1b";
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.arc(cx, cy + 40, 45, 0, Math.PI);
+    ctx.stroke();
+}
+
+function animateBack() {
+    for (let p of points) {
+        p.x += (p.ox - p.x) * 0.15;
+        p.y += (p.oy - p.y) * 0.15;
+    }
+    drawFace();
+    requestAnimationFrame(animateBack);
+}
+
+canvas.addEventListener("mousedown", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    // Finde den nächsten Punkt
+    let closest = null;
+    let dist = 99999;
+
+    for (let p of points) {
+        const d = Math.hypot(mx - p.x, my - p.y);
+        if (d < dist) {
+            dist = d;
+            closest = p;
+        }
+    }
+
+    draggingPoint = closest;
+    canvas.classList.add("dragging");
 });
 
-document.addEventListener("mousemove", (e) => {
-    if (!dragging) return;
+canvas.addEventListener("mousemove", (e) => {
+    if (!draggingPoint) return;
 
-    const rect = face.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const rect = canvas.getBoundingClientRect();
+    draggingPoint.x = e.clientX - rect.left;
+    draggingPoint.y = e.clientY - rect.top;
 
-    // Berechne Stretch
-    const dx = mouseX - 100;
-    const dy = mouseY - 100;
+    // Nachbarpunkte leicht mitziehen
+    for (let p of points) {
+        const d = Math.hypot(p.x - draggingPoint.x, p.y - draggingPoint.y);
+        if (d < 80) {
+            p.x += (draggingPoint.x - p.x) * 0.2;
+            p.y += (draggingPoint.y - p.y) * 0.2;
+        }
+    }
 
-    const stretchLimit = 40;
-    const sx = Math.max(Math.min(dx, stretchLimit), -stretchLimit);
-    const sy = Math.max(Math.min(dy, stretchLimit), -stretchLimit);
-
-    // Verforme das Gesicht (nur den Mittelpunkt)
-    face.setAttribute("cx", originalCX + sx);
-    face.setAttribute("cy", originalCY + sy);
+    drawFace();
 });
 
-document.addEventListener("mouseup", () => {
-    if (!dragging) return;
-    dragging = false;
-    document.getElementById("gooFace").classList.remove("dragging");
-
-    // Zurück animieren
-    face.animate(
-        [
-            { cx: face.getAttribute("cx"), cy: face.getAttribute("cy") },
-            { cx: originalCX, cy: originalCY }
-        ],
-        { duration: 300, easing: "ease-out" }
-    );
-
-    face.setAttribute("cx", originalCX);
-    face.setAttribute("cy", originalCY);
+canvas.addEventListener("mouseup", () => {
+    draggingPoint = null;
+    canvas.classList.remove("dragging");
+    animateBack();
 });
+
+drawFace();
 </script>
+
 
 
     
@@ -254,6 +309,7 @@ document.addEventListener("mouseup", () => {
 </html>
 
  
+
 
 
 
