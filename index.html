@@ -166,124 +166,173 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 <div>  danke das sie hier sind </div>
 
 
+<h2 style="text-align:center;">Minecraft Nether Portal</h2>
 
-<h2>Ultra‑Realistisches Slime‑Gesicht mit deinem Bild</h2>
-
-<canvas id="slimeFace" width="350" height="350"></canvas>
+<div id="portal">
+    <div class="portal-inner"></div>
+    <img id="pigman" src="https://i.imgur.com/1eYVYpC.png">
+</div>
 
 <style>
-#slimeFace {
-    display: block;
+#portal {
+    width: 220px;
+    height: 320px;
     margin: 40px auto;
-    background: #0000; /* transparent */
-    cursor: grab;
+    background: url('https://i.imgur.com/8pQeQ0B.png');
+    background-size: cover;
+    position: relative;
+    cursor: pointer;
 }
-#slimeFace.dragging {
-    cursor: grabbing;
+
+/* Portalfläche */
+.portal-inner {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    width: 164px;
+    height: 264px;
+    background: url('https://i.imgur.com/8kY4FQx.png');
+    background-size: cover;
+    animation: portalMove 3s infinite linear;
+    filter: brightness(1.4) saturate(1.4);
+}
+
+/* Pigman */
+#pigman {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    width: 100px;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+
+/* Verzerrungs-Effekt */
+@keyframes portalMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 512px; }
+}
+
+@keyframes warp {
+    0% { filter: blur(0px) brightness(1); transform: scale(1); }
+    50% { filter: blur(8px) brightness(2); transform: scale(1.2); }
+    100% { filter: blur(0px) brightness(1); transform: scale(1); }
+}
+
+/* Nether-Modus */
+.nether-mode {
+    background: #300;
+    color: #ffb3b3;
+    transition: background 1s, color 1s;
+}
+
+.nether-glow {
+    box-shadow: 0 0 40px red inset;
 }
 </style>
 
 <script>
-const canvas = document.getElementById("slimeFace");
-const ctx = canvas.getContext("2d");
+const portal = document.getElementById("portal");
+const pigman = document.getElementById("pigman");
 
-let img = new Image();
-img.src = "emoji.jpg"; // DEIN BILD
-
-let points = [];
-let draggingPoint = null;
-
-const cx = canvas.width / 2;
-const cy = canvas.height / 2;
-const radius = 120;
-
-// 32 Punkte rund um das Gesicht
-for (let i = 0; i < 32; i++) {
-    const angle = (i / 32) * Math.PI * 2;
-    points.push({
-        x: cx + Math.cos(angle) * radius,
-        y: cy + Math.sin(angle) * radius,
-        ox: cx + Math.cos(angle) * radius,
-        oy: cy + Math.sin(angle) * radius
-    });
-}
-
-function drawFace() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Maske für Slime-Form
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-    for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i].y);
+// Pigman zufällig erscheinen lassen
+setInterval(() => {
+    if (Math.random() < 0.2) { // 20% Chance
+        pigman.style.opacity = 1;
+        setTimeout(() => pigman.style.opacity = 0, 1200);
     }
-    ctx.closePath();
-    ctx.clip();
+}, 3000);
 
-    // Dein Bild als Textur
-    ctx.drawImage(img, cx - 120, cy - 120, 240, 240);
+// Teleport + Nether-Modus
+portal.addEventListener("click", () => {
+    document.body.classList.add("nether-mode");
+    portal.classList.add("nether-glow");
 
-    ctx.restore();
-}
+    // Verzerrungs-Effekt
+    portal.style.animation = "warp 0.6s";
 
-function animateBack() {
-    for (let p of points) {
-        p.x += (p.ox - p.x) * 0.15;
-        p.y += (p.oy - p.y) * 0.15;
-    }
-    drawFace();
-    requestAnimationFrame(animateBack);
-}
-
-canvas.addEventListener("mousedown", (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-
-    let closest = null;
-    let dist = 99999;
-
-    for (let p of points) {
-        const d = Math.hypot(mx - p.x, my - p.y);
-        if (d < dist) {
-            dist = d;
-            closest = p;
-        }
-    }
-
-    draggingPoint = closest;
-    canvas.classList.add("dragging");
+    setTimeout(() => {
+        portal.style.animation = "";
+    }, 600);
 });
-
-canvas.addEventListener("mousemove", (e) => {
-    if (!draggingPoint) return;
-
-    const rect = canvas.getBoundingClientRect();
-    draggingPoint.x = e.clientX - rect.left;
-    draggingPoint.y = e.clientY - rect.top;
-
-    for (let p of points) {
-        const d = Math.hypot(p.x - draggingPoint.x, p.y - draggingPoint.y);
-        if (d < 80) {
-            p.x += (draggingPoint.x - p.x) * 0.2;
-            p.y += (draggingPoint.y - p.y) * 0.2;
-        }
-    }
-
-    drawFace();
-});
-
-canvas.addEventListener("mouseup", () => {
-    draggingPoint = null;
-    canvas.classList.remove("dragging");
-    animateBack();
-});
-
-img.onload = () => {
-    drawFace();
-};
 </script>
+
+  <style>
+/* Pigman der über die Seite läuft */
+#pigman-walker {
+    position: fixed;
+    bottom: 20px;
+    left: -150px;
+    width: 120px;
+    image-rendering: pixelated;
+    transition: transform 0.2s;
+    z-index: 9999;
+    pointer-events: none;
+}
+</style>
+
+<img id="pigman-walker" src="https://i.imgur.com/1eYVYpC.png">
+
+<script>
+const pigmanWalker = document.getElementById("pigman-walker");
+const portalElement = document.getElementById("portal");
+
+function pigmanWalk() {
+    // 5% Chance
+    if (Math.random() > 0.05) return;
+
+    let screenWidth = window.innerWidth;
+
+    // Startposition links
+    pigmanWalker.style.left = "-150px";
+    pigmanWalker.style.bottom = "20px";
+    pigmanWalker.style.opacity = "1";
+
+    let pos = -150;
+
+    // Pigman läuft nach rechts
+    let walkInterval = setInterval(() => {
+        pos += 4;
+        pigmanWalker.style.left = pos + "px";
+
+        // Wenn er rechts raus ist → zurück ins Portal
+        if (pos > screenWidth) {
+            clearInterval(walkInterval);
+            pigmanReturn();
+        }
+    }, 20);
+}
+
+function pigmanReturn() {
+    // Pigman läuft zurück ins Portal
+    let portalRect = portalElement.getBoundingClientRect();
+    let targetX = portalRect.left + portalRect.width / 2 - 60;
+    let targetY = portalRect.top + portalRect.height / 2;
+
+    let x = window.innerWidth + 150;
+    let y = 20;
+
+    let returnInterval = setInterval(() => {
+        x -= 6;
+        y += (targetY - y) * 0.05;
+
+        pigmanWalker.style.left = x + "px";
+        pigmanWalker.style.bottom = y + "px";
+
+        // Wenn er im Portal ist → verschwinden
+        if (x < targetX + 20) {
+            clearInterval(returnInterval);
+            pigmanWalker.style.opacity = "0";
+        }
+    }, 20);
+}
+
+// Alle 4 Sekunden Chance auf Pigman
+setInterval(pigmanWalk, 4000);
+</script>
+  
+
 
 
 
@@ -294,6 +343,7 @@ img.onload = () => {
 </html>
 
  
+
 
 
 
