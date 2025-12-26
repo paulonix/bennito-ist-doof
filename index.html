@@ -167,7 +167,7 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 
 
 
-<h2>Ultra‑Realistisches Slime‑Gesicht</h2>
+<h2>Ultra‑Realistisches Slime‑Gesicht mit deinem Bild</h2>
 
 <canvas id="slimeFace" width="350" height="350"></canvas>
 
@@ -175,9 +175,7 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 #slimeFace {
     display: block;
     margin: 40px auto;
-    background: #ffe7a8;
-    border-radius: 50%;
-    box-shadow: 0 0 30px rgba(0,0,0,0.25);
+    background: #0000; /* transparent */
     cursor: grab;
 }
 #slimeFace.dragging {
@@ -189,10 +187,12 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 const canvas = document.getElementById("slimeFace");
 const ctx = canvas.getContext("2d");
 
+let img = new Image();
+img.src = "emoji.jpg"; // DEIN BILD
+
 let points = [];
 let draggingPoint = null;
 
-// Gesichtsmittelpunkt
 const cx = canvas.width / 2;
 const cy = canvas.height / 2;
 const radius = 120;
@@ -203,7 +203,7 @@ for (let i = 0; i < 32; i++) {
     points.push({
         x: cx + Math.cos(angle) * radius,
         y: cy + Math.sin(angle) * radius,
-        ox: cx + Math.cos(angle) * radius, // Originalposition
+        ox: cx + Math.cos(angle) * radius,
         oy: cy + Math.sin(angle) * radius
     });
 }
@@ -211,35 +211,20 @@ for (let i = 0; i < 32; i++) {
 function drawFace() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Slime‑Form zeichnen
+    // Maske für Slime-Form
+    ctx.save();
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
     for (let i = 1; i < points.length; i++) {
         ctx.lineTo(points[i].x, points[i].y);
     }
     ctx.closePath();
-    ctx.fillStyle = "#ffdd99";
-    ctx.fill();
+    ctx.clip();
 
-    // Augen
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    ctx.arc(cx - 40, cy - 20, 18, 0, Math.PI * 2);
-    ctx.arc(cx + 40, cy - 20, 18, 0, Math.PI * 2);
-    ctx.fill();
+    // Dein Bild als Textur
+    ctx.drawImage(img, cx - 120, cy - 120, 240, 240);
 
-    ctx.fillStyle = "black";
-    ctx.beginPath();
-    ctx.arc(cx - 40, cy - 20, 8, 0, Math.PI * 2);
-    ctx.arc(cx + 40, cy - 20, 8, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Mund
-    ctx.strokeStyle = "#8a3a1b";
-    ctx.lineWidth = 6;
-    ctx.beginPath();
-    ctx.arc(cx, cy + 40, 45, 0, Math.PI);
-    ctx.stroke();
+    ctx.restore();
 }
 
 function animateBack() {
@@ -256,7 +241,6 @@ canvas.addEventListener("mousedown", (e) => {
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
 
-    // Finde den nächsten Punkt
     let closest = null;
     let dist = 99999;
 
@@ -279,7 +263,6 @@ canvas.addEventListener("mousemove", (e) => {
     draggingPoint.x = e.clientX - rect.left;
     draggingPoint.y = e.clientY - rect.top;
 
-    // Nachbarpunkte leicht mitziehen
     for (let p of points) {
         const d = Math.hypot(p.x - draggingPoint.x, p.y - draggingPoint.y);
         if (d < 80) {
@@ -297,7 +280,9 @@ canvas.addEventListener("mouseup", () => {
     animateBack();
 });
 
-drawFace();
+img.onload = () => {
+    drawFace();
+};
 </script>
 
 
@@ -309,6 +294,7 @@ drawFace();
 </html>
 
  
+
 
 
 
