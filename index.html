@@ -167,137 +167,82 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 
 
 
-<div id="elastic-face-container">
-    <div id="elastic-face">
-        <div class="eye left"></div>
-        <div class="eye right"></div>
-        <div class="mouth"></div>
-    </div>
-</div>
+<h2>Elastisches Gesicht</h2>
+
+<svg id="gooFace" width="300" height="300" viewBox="0 0 300 300">
+    <!-- Kreis-Gesicht -->
+    <circle id="face" cx="150" cy="150" r="100" fill="#ffdd99" />
+
+    <!-- Augen -->
+    <circle cx="120" cy="130" r="12" fill="white"/>
+    <circle cx="180" cy="130" r="12" fill="white"/>
+    <circle cx="120" cy="130" r="6" fill="black"/>
+    <circle cx="180" cy="130" r="6" fill="black"/>
+
+    <!-- Mund -->
+    <path id="mouth" d="M110 190 Q150 220 190 190" stroke="#8a3a1b" stroke-width="6" fill="none"/>
+</svg>
 
 <style>
-#elastic-face-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
+#gooFace {
     user-select: none;
-}
-
-/* Das Gesicht */
-#elastic-face {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle at 30% 30%, #ffe7a8, #f4b35b);
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 0 30px rgba(0,0,0,0.3);
     cursor: grab;
-    transition: transform 0.4s cubic-bezier(0.2, 1.5, 0.4, 1); /* glibberiger Snap-Effekt */
 }
-
-/* Wenn man zieht */
-#elastic-face.dragging {
+#gooFace.dragging {
     cursor: grabbing;
-    transition: none; /* keine Animation während des Ziehens */
-}
-
-/* Augen */
-#elastic-face .eye {
-    width: 30px;
-    height: 30px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 55px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.3);
-    overflow: hidden;
-}
-
-#elastic-face .eye.left {
-    left: 55px;
-}
-
-#elastic-face .eye.right {
-    right: 55px;
-}
-
-#elastic-face .eye::before {
-    content: "";
-    width: 14px;
-    height: 14px;
-    background: black;
-    border-radius: 50%;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-}
-
-/* Mund */
-#elastic-face .mouth {
-    width: 90px;
-    height: 50px;
-    border-bottom: 6px solid #8a3a1b;
-    border-radius: 0 0 90px 90px;
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
 }
 </style>
 
 <script>
-const face = document.getElementById("elastic-face");
+const face = document.getElementById("face");
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
 
-let isDragging = false;
-let startX = 0;
-let startY = 0;
-
-// Mitte für die Berechnung der Verzerrung
-let originX = 0;
-let originY = 0;
-
-function updateOrigin() {
-    const rect = face.getBoundingClientRect();
-    originX = rect.left + rect.width / 2;
-    originY = rect.top + rect.height / 2;
-}
-
-// Beim Laden und beim Resize die Mitte neu berechnen
-window.addEventListener("load", updateOrigin);
-window.addEventListener("resize", updateOrigin);
+let originalCX = 150;
+let originalCY = 150;
 
 face.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    face.classList.add("dragging");
-    startX = e.clientX;
-    startY = e.clientY;
+    dragging = true;
+    document.getElementById("gooFace").classList.add("dragging");
 });
 
 document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
+    if (!dragging) return;
 
-    const dx = e.clientX - originX;
-    const dy = e.clientY - originY;
+    const rect = face.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
 
-    // Begrenze, damit es nicht zu extrem wird
-    const maxStretch = 80;
-    const stretchX = Math.max(Math.min(dx, maxStretch), -maxStretch);
-    const stretchY = Math.max(Math.min(dy, maxStretch), -maxStretch);
+    // Berechne Stretch
+    const dx = mouseX - 100;
+    const dy = mouseY - 100;
 
-    // Glibberige Verzerrung mit translate + scale
-    const distance = Math.sqrt(stretchX * stretchX + stretchY * stretchY);
-    const scale = 1 + Math.min(distance / 250, 0.35); // bis ~35% größer
+    const stretchLimit = 40;
+    const sx = Math.max(Math.min(dx, stretchLimit), -stretchLimit);
+    const sy = Math.max(Math.min(dy, stretchLimit), -stretchLimit);
 
-    face.style.transform = `translate(${stretchX}px, ${stretchY}px) scale(${scale})`;
+    // Verforme das Gesicht (nur den Mittelpunkt)
+    face.setAttribute("cx", originalCX + sx);
+    face.setAttribute("cy", originalCY + sy);
 });
 
 document.addEventListener("mouseup", () => {
-    if (!isDragging) return;
-    isDragging = false;
-    face.classList.remove("dragging");
+    if (!dragging) return;
+    dragging = false;
+    document.getElementById("gooFace").classList.remove("dragging");
 
-    // Zurück zur Normalform mit glibberiger Animation
-    face.style.transform = "translate(0, 0) scale(1)";
+    // Zurück animieren
+    face.animate(
+        [
+            { cx: face.getAttribute("cx"), cy: face.getAttribute("cy") },
+            { cx: originalCX, cy: originalCY }
+        ],
+        { duration: 300, easing: "ease-out" }
+    );
+
+    face.setAttribute("cx", originalCX);
+    face.setAttribute("cy", originalCY);
 });
 </script>
 
@@ -308,6 +253,7 @@ document.addEventListener("mouseup", () => {
 </html>
 
  
+
 
 
 
