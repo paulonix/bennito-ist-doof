@@ -140,6 +140,21 @@
     <div class="slot" data-pos="7" onclick="placeItem(this)"></div>
     <div class="slot" data-pos="8" onclick="placeItem(this)"></div>
 </div>
+
+      function checkRecipe() {
+        const grid = Array.from(slots).map(s => s.dataset.item || "");
+
+        const pickaxeRecipe = [
+            "diamond", "diamond", "diamond",
+            "",        "stick",   "",
+            "",        "stick",   ""
+        ];
+
+        if (JSON.stringify(grid) === JSON.stringify(pickaxeRecipe)) {
+            alert("Diamantspitzhacke gecraftet!");
+            window.location.href = "index.html";
+        }
+    }
   
 
     
