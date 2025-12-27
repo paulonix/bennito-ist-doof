@@ -128,7 +128,7 @@ function makeRunButton(btn) {
     width: 220px;
     height: 320px;
     margin: 40px auto;
-    background: url('obsidian-rahmen.png'); /* Obsidian Rahmen */
+    background: url('obsidian-rahmen.png');
     background-size: cover;
     position: relative;
     cursor: pointer;
@@ -141,7 +141,7 @@ function makeRunButton(btn) {
     left: 28px;
     width: 164px;
     height: 264px;
-    background: url('obsidian-rahmen.png'); /* Nether Portal Animation */
+    background: url('portal-animation.png'); /* oder dein eigenes Portalbild */
     background-size: cover;
     animation: portalMove 3s infinite linear;
     filter: brightness(1.4) saturate(1.4);
@@ -159,6 +159,7 @@ function makeRunButton(btn) {
     box-shadow: 0 0 30px #a020f0;
 }
 </style>
+
     document.querySelectorAll(".runBtn").forEach(makeRunButton);
 </script>
   <nav>
@@ -226,6 +227,7 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 </html>
 
  
+
 
 
 
