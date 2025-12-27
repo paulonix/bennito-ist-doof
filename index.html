@@ -240,16 +240,7 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
     filter: brightness(1.4) saturate(1.4);
 }
 
-/* Pigman */
-#pigman {
-    position: absolute;
-    top: 60px;
-    left: 60px;
-    width: 100px;
-    opacity: 0;
-    transition: opacity 0.4s;
-    pointer-events: none;
-}
+
 
 /* Verzerrungs-Effekt */
 @keyframes portalMove {
@@ -279,13 +270,7 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 const portal = document.getElementById("portal");
 const pigman = document.getElementById("pigman");
 
-// Pigman zufällig erscheinen lassen
-setInterval(() => {
-    if (Math.random() < 0.2) { // 20% Chance
-        pigman.style.opacity = 1;
-        setTimeout(() => pigman.style.opacity = 0, 1200);
-    }
-}, 3000);
+
 
 // Teleport + Nether-Modus
 portal.addEventListener("click", () => {
@@ -301,82 +286,7 @@ portal.addEventListener("click", () => {
 });
 </script>
 
-  <style>
-/* Pigman der über die Seite läuft */
-#pigman-walker {
-    position: fixed;
-    bottom: 20px;
-    left: -150px;
-    width: 120px;
-    image-rendering: pixelated;
-    transition: transform 0.2s;
-    z-index: 9999;
-    pointer-events: none;
-}
-</style>
-
-<img id="pigman-walker" src="pigman.png">
-
-
-<script>
-const pigmanWalker = document.getElementById("pigman-walker");
-const portalElement = document.getElementById("portal");
-
-function pigmanWalk() {
-    // 5% Chance
-    if (Math.random() > 0.05) return;
-
-    let screenWidth = window.innerWidth;
-
-    // Startposition links
-    pigmanWalker.style.left = "-150px";
-    pigmanWalker.style.bottom = "20px";
-    pigmanWalker.style.opacity = "1";
-
-    let pos = -150;
-
-    // Pigman läuft nach rechts
-    let walkInterval = setInterval(() => {
-        pos += 4;
-        pigmanWalker.style.left = pos + "px";
-
-        // Wenn er rechts raus ist → zurück ins Portal
-        if (pos > screenWidth) {
-            clearInterval(walkInterval);
-            pigmanReturn();
-        }
-    }, 20);
-}
-
-function pigmanReturn() {
-    // Pigman läuft zurück ins Portal
-    let portalRect = portalElement.getBoundingClientRect();
-    let targetX = portalRect.left + portalRect.width / 2 - 60;
-    let targetY = portalRect.top + portalRect.height / 2;
-
-    let x = window.innerWidth + 150;
-    let y = 20;
-
-    let returnInterval = setInterval(() => {
-        x -= 6;
-        y += (targetY - y) * 0.05;
-
-        pigmanWalker.style.left = x + "px";
-        pigmanWalker.style.bottom = y + "px";
-
-        // Wenn er im Portal ist → verschwinden
-        if (x < targetX + 20) {
-            clearInterval(returnInterval);
-            pigmanWalker.style.opacity = "0";
-        }
-    }, 20);
-}
-
-// Alle 4 Sekunden Chance auf Pigman
-setInterval(pigmanWalk, 4000);
-</script>
-  
-
+ 
 
 
 
@@ -387,6 +297,7 @@ setInterval(pigmanWalk, 4000);
 </html>
 
  
+
 
 
 
