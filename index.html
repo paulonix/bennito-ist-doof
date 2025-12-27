@@ -207,83 +207,12 @@ document.querySelectorAll("#colorTable td").forEach(cell => {
 <div>  danke das sie hier sind </div>
 
 
-<h2 style="text-align:center;">Minecraft Nether Portal</h2>
-
-<div id="portal">
-    <div class="portal-inner"></div>
-   <img id="pigman" src="pigman.png">
-
-</div>
-
-<style>
-#portal {
-    width: 220px;
-    height: 320px;
-    margin: 40px auto;
-   background: url('obsidian-rahmen.png');
-
-    background-size: cover;
-    position: relative;
-    cursor: pointer;
-}
-
-/* Portalfläche */
-.portal-inner {
-    position: absolute;
-    top: 28px;
-    left: 28px;
-    width: 164px;
-    height: 264px;
-    background: url('https://obsidian-rahmen.png');
-    background-size: cover;
-    animation: portalMove 3s infinite linear;
-    filter: brightness(1.4) saturate(1.4);
-}
 
 
 
-/* Verzerrungs-Effekt */
-@keyframes portalMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 512px; }
-}
-
-@keyframes warp {
-    0% { filter: blur(0px) brightness(1); transform: scale(1); }
-    50% { filter: blur(8px) brightness(2); transform: scale(1.2); }
-    100% { filter: blur(0px) brightness(1); transform: scale(1); }
-}
-
-/* Nether-Modus */
-.nether-mode {
-    background: #300;
-    color: #ffb3b3;
-    transition: background 1s, color 1s;
-}
-
-.nether-glow {
-    box-shadow: 0 0 40px red inset;
-}
-</style>
-
-<script>
-const portal = document.getElementById("portal");
-const pigman = document.getElementById("pigman");
 
 
 
-// Teleport + Nether-Modus
-portal.addEventListener("click", () => {
-    document.body.classList.add("nether-mode");
-    portal.classList.add("nether-glow");
-
-    // Verzerrungs-Effekt
-    portal.style.animation = "warp 0.6s";
-
-    setTimeout(() => {
-        portal.style.animation = "";
-    }, 600);
-});
 </script>
 
  
@@ -297,6 +226,7 @@ portal.addEventListener("click", () => {
 </html>
 
  
+
 
 
 
