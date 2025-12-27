@@ -124,23 +124,45 @@
 </script>
 
 
+<div id="items">
+    <img src="diamond.webp" class="item" draggable="true" data-item="diamond" onclick="selectItem('diamond')">
+    <img src="stick.webp" class="item" draggable="true" data-item="stick" onclick="selectItem('stick')">
+</div>
+
+  <div id="crafting">
+    <div class="slot" data-pos="0" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="1" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="2" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="3" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="4" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="5" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="6" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="7" onclick="placeItem(this)"></div>
+    <div class="slot" data-pos="8" onclick="placeItem(this)"></div>
+</div>
+  
+
+    
+
+
     <script>let selectedItem = null;
 
-// Wird aufgerufen, wenn man ein Inventar-Item antippt
+// Inventar-Item antippen
 function selectItem(itemId) {
     selectedItem = itemId;
-    console.log("Ausgewählt:", selectedItem);
 }
 
-// Wird aufgerufen, wenn man ein Crafting-Feld antippt
+// Slot antippen
 function placeItem(slotElement) {
     if (!selectedItem) return;
 
-    slotElement.style.backgroundImage = `url('${selectedItem}.png')`;
+    slotElement.innerHTML = `<img src="${selectedItem}.webp">`;
     slotElement.dataset.item = selectedItem;
 
     selectedItem = null;
+    checkRecipe();
 }
+
  </script>
 
 </body>
