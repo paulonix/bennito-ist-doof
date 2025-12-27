@@ -49,10 +49,26 @@
 <body>
 
     <!-- Das versteckte Item -->
-    <img id="item" src="nether-item.png" draggable="true">
+   <img id="item" src="nether-item.png" draggable="true" style="
+    position:absolute;
+    top:320px;
+    left:680px;
+    width:80px;
+    cursor:grab;
+    z-index:9999;
+">
+
 
     <!-- Inventar-Slot -->
-    <div id="slot">Drop Item</div>
+   <div id="slot" style="
+    width:140px;
+    height:140px;
+    border:4px dashed white;
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    z-index:9998;
+"></div>
 
     <script>
         const item = document.getElementById("item");
