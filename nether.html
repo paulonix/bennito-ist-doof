@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Nether Challenge</title>
+    <style>
+        body {
+            margin: 0;
+            background: radial-gradient(circle at center, #500 0, #100 60%, #000 100%);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            user-select: none;
+        }
+
+        h1 {
+            margin-top: 10px;
+        }
+
+        #info {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        #game {
+            display: block;
+            margin: 0 auto 20px auto;
+            background: #200;
+            border: 3px solid #600;
+            box-shadow: 0 0 30px #f00;
+
+            /* Dein Diamantschwert als Cursor */
+            cursor: url('diaschwert.webp') 16 16, crosshair;
+        }
+
+        #hud {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-size: 18px;
+        }
+
+        .hearts {
+            color: #f55;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        #message {
+            font-size: 20px;
+            margin-top: 10px;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nether Challenge – Ghast Fireballs</h1>
+    <div id="info">Triff 10 Feuerkugeln, um im Nether bleiben zu dürfen!</div>
+
+    <div id="hud">
+        <div class="label">Leben: <span id="lives">❤❤❤</span></div>
+        <div class="label">Punkte: <span id="score">0</span></div>
+        <div class="label">Getroffene Kugeln: <span id="hits">0 / 10</span></div>
+    </div>
+
+    <canvas id="game" width="800" height="400"></canvas>
+    <div id="message"></div>
+
+    <script>
+        const canvas = document.getElementById("game");
+        const ctx = canvas.getContext("2d");
+
+        const livesEl = document.getElementById("lives");
+        const scoreEl = document.getElementById("score");
+        const hitsEl = document.getElementById("hits");
+        const messageEl = document.getElementById("message");
+
+        let lives = 3;
+        let score = 0;
+        let hits = 0;
+        let gameWon = false;
+
+        const fireballs = [];
+        const maxFireballs = 3;
+
+        // Feuerkugel erstellen
+        function spawnFireball() {
+            if (fireballs.length >= maxFireballs) return;
+            const radius = 20;
+            const x = Math.random() * (canvas.width - 2 * radius) + radius;
+            const y = Math.random() * (canvas.height - 2 * radius) + radius;
+
+            fireballs.push({ x, y, r: radius });
+        }
+
+        // Anfangs zwei Kugeln
+        for (let i = 0; i < 2; i++) spawnFireball();
+
+        // HUD aktualisieren
+        function updateHUD() {
+            livesEl.textContent = "❤".repeat(lives) + " ".repeat(3 - lives);
+            scoreEl.textContent = score;
+            hitsEl.textContent = hits + " / 10";
+        }
+
+        // Spielfeld zeichnen
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Hintergrund-Glut
+            const grd = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 50,
+                canvas.width / 2, canvas.height / 2, 400
+            );
+            grd.addColorStop(0, "#800");
+            grd.addColorStop(1, "#100");
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Feuerkugeln
+            fireballs.forEach(ball => {
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+                ctx.fillStyle = "#ff8800";
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.r * 0.6, 0, Math.PI * 2);
+                ctx.fillStyle = "#ffff66";
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.r * 0.3, 0, Math.PI * 2);
+                ctx.fillStyle = "#ffffff";
+                ctx.fill();
+            });
+
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // Klick-Logik
+        canvas.addEventListener("click", (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+
+            let hitSomething = false;
+
+            // Prüfen, ob eine Kugel getroffen wurde
+            for (let i = fireballs.length - 1; i >= 0; i--) {
+                const b = fireballs[i];
+                const dist = Math.hypot(mx - b.x, my - b.y);
+                if (dist <= b.r) {
+                    fireballs.splice(i, 1);
+                    hitSomething = true;
+                    score++;
+                    hits++;
+                    messageEl.textContent = "Treffer!";
+                    setTimeout(spawnFireball, 300);
+                }
+            }
+
+            if (hitSomething) {
+                if (!gameWon && hits >= 10) {
+                    gameWon = true;
+                    messageEl.textContent = "Du hast 10 Kugeln getroffen! Du darfst im Nether bleiben.";
+                }
+            } else {
+                if (!gameWon) {
+                    lives--;
+                    messageEl.textContent = "Daneben! Du verlierst 1 Leben.";
+                    if (lives <= 0) {
+                        messageEl.textContent = "Alle Leben verloren! Du wirst zurück zur Oberwelt geschickt...";
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 1300);
+                    }
+                } else {
+                    messageEl.textContent = "Daneben – aber du hast den Nether schon verdient.";
+                }
+            }
+
+            updateHUD();
+        });
+
+        // Regelmäßig neue Kugeln spawnen
+        setInterval(spawnFireball, 2000);
+
+        updateHUD();
+    </script>
+</body>
+</html>
