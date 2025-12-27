@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nether Map</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('nether-map.png');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Verstecktes Item */
+        #item {
+            position: absolute;
+            top: 320px;
+            left: 680px;
+            width: 80px;
+            cursor: grab;
+        }
+
+        /* Inventar-Slot */
+        #slot {
+            width: 140px;
+            height: 140px;
+            border: 4px dashed white;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        #slot.filled {
+            border: 4px solid lime;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Das versteckte Item -->
+    <img id="item" src="nether-item.png" draggable="true">
+
+    <!-- Inventar-Slot -->
+    <div id="slot">Drop Item</div>
+
+    <script>
+        const item = document.getElementById("item");
+        const slot = document.getElementById("slot");
+
+        // Drag starten
+        item.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text/plain", "item");
+        });
+
+        // Slot erlaubt Drop
+        slot.addEventListener("dragover", e => {
+            e.preventDefault();
+        });
+
+        // Wenn Item in Slot gelegt wird
+        slot.addEventListener("drop", e => {
+            const data = e.dataTransfer.getData("text/plain");
+
+            if (data === "item") {
+                slot.classList.add("filled");
+                slot.style.backgroundImage = "url('nether-item.png')";
+                slot.textContent = "";
+
+                // Teleport zurück zur Startseite
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 800);
+            }
+        });
+    </script>
+
+</body>
+</html>
