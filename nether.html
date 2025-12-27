@@ -159,6 +159,10 @@
                     fireballs.splice(i, 1);
                     hitSomething = true;
                     score++;
+                    if (score >= 10) {
+    window.location.href = "nether-map.html";
+}
+
                     hits++;
                     messageEl.textContent = "Treffer!";
                     setTimeout(spawnFireball, 300);
@@ -193,5 +197,17 @@
 
         updateHUD();
     </script>
+
+  
+    
+
+
+
+
+
+
+
+
+    
 </body>
 </html>
