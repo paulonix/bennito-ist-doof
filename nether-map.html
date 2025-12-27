@@ -142,26 +142,13 @@
     <div class="slot" data-pos="8" onclick="placeItem(this)"></div>
 </div>
 
-      function checkRecipe() {
-        const grid = Array.from(slots).map(s => s.dataset.item || "");
-
-        const pickaxeRecipe = [
-            "diamond", "diamond", "diamond",
-            "",        "stick",   "",
-            "",        "stick",   ""
-        ];
-
-        if (JSON.stringify(grid) === JSON.stringify(pickaxeRecipe)) {
-            alert("Diamantspitzhacke gecraftet!");
-            window.location.href = "index.html";
-        }
-    }
-  
+     
 
     
 
 
-    <script>let selectedItem = null;
+    <script>
+        let selectedItem = null;
 
 // Inventar-Item antippen
 function selectItem(itemId) {
@@ -172,10 +159,15 @@ function selectItem(itemId) {
 function placeItem(slotElement) {
     if (!selectedItem) return;
 
+    // Bild einfügen
     slotElement.innerHTML = `<img src="${selectedItem}.webp">`;
+
+    // WICHTIG: Item im Slot speichern
     slotElement.dataset.item = selectedItem;
 
     selectedItem = null;
+
+    // Rezept prüfen
     checkRecipe();
 }
 
