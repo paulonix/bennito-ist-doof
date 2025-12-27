@@ -123,5 +123,25 @@
     }
 </script>
 
+
+    <script>let selectedItem = null;
+
+// Wird aufgerufen, wenn man ein Inventar-Item antippt
+function selectItem(itemId) {
+    selectedItem = itemId;
+    console.log("Ausgewählt:", selectedItem);
+}
+
+// Wird aufgerufen, wenn man ein Crafting-Feld antippt
+function placeItem(slotElement) {
+    if (!selectedItem) return;
+
+    slotElement.style.backgroundImage = `url('${selectedItem}.png')`;
+    slotElement.dataset.item = selectedItem;
+
+    selectedItem = null;
+}
+ </script>
+
 </body>
 </html>
