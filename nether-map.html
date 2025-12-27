@@ -1,7 +1,50 @@
-<html> 
-    <head> 
-    </head>
-    <body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crafting</title>
+
+    <style>
+        #crafting {
+            width: 330px;
+            height: 330px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+        }
+
+        /* Jeder Crafting-Slot */
+        .slot {
+            width: 100px;
+            height: 100px;
+            background: url('crafting.webp');
+            background-size: cover;
+            background-position: center;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px black;
+        }
+
+        /* Das Item im Slot */
+        .slot img {
+            width: 80px;
+            height: 80px;
+            pointer-events: none; /* wichtig für Drag & Drop */
+        }
+
+        /* Die Items, die man ziehen kann */
+        .item {
+            width: 80px;
+            margin: 10px;
+            cursor: grab;
+        }
+    </style>
+</head>
+
+<body>
+
 <h2 style="text-align:center; color:white;">Craft a Diamond Pickaxe</h2>
 
 <div id="crafting">
@@ -20,43 +63,7 @@
 
 <img src="diamond.webp" class="item" draggable="true" data-item="diamond">
 <img src="stick.webp" class="item" draggable="true" data-item="stick">
-#crafting {
-    width: 330px;
-    height: 330px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin: 20px auto;
-}
-
-/* Jeder Crafting-Slot */
-.slot {
-    width: 100px;
-    height: 100px;
-    background: url('crafting.webp');
-    background-size: cover;
-    background-position: center;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: inset 0 0 10px black;
-}
-
-/* Das Item im Slot */
-.slot img {
-    width: 80px;
-    height: 80px;
-    pointer-events: none; /* wichtig für Drag & Drop */
-}
-
-/* Die Items, die man ziehen kann */
-.item {
-    width: 80px;
-    margin: 10px;
-    cursor: grab;
-}
-
 
 </body>
 </html>
+
