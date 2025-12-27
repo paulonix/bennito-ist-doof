@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crafting</title>
+    <title>Crafting Table</title>
 
     <style>
+        body {
+            background: #111;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        /* Crafting Grid */
         #crafting {
             width: 330px;
             height: 330px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin: 20px auto;
+            margin: 30px auto;
         }
 
         /* Jeder Crafting-Slot */
@@ -27,26 +39,31 @@
             box-shadow: inset 0 0 10px black;
         }
 
-        /* Das Item im Slot */
+        /* Item im Slot */
         .slot img {
             width: 80px;
             height: 80px;
             pointer-events: none; /* wichtig für Drag & Drop */
         }
 
-        /* Die Items, die man ziehen kann */
+        /* Items zum Ziehen */
         .item {
             width: 80px;
             margin: 10px;
             cursor: grab;
+        }
+
+        #items {
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
 
-<h2 style="text-align:center; color:white;">Craft a Diamond Pickaxe</h2>
+<h2>Craft a Diamond Pickaxe</h2>
 
+<!-- Crafting Grid -->
 <div id="crafting">
     <div class="slot" data-pos="0"></div>
     <div class="slot" data-pos="1"></div>
@@ -59,11 +76,52 @@
     <div class="slot" data-pos="8"></div>
 </div>
 
-<h3 style="color:white;">Items:</h3>
+<h3>Items:</h3>
 
-<img src="diamond.webp" class="item" draggable="true" data-item="diamond">
-<img src="stick.webp" class="item" draggable="true" data-item="stick">
+<div id="items">
+    <img src="diamond.webp" class="item" draggable="true" data-item="diamond">
+    <img src="stick.webp" class="item" draggable="true" data-item="stick">
+</div>
+
+<script>
+    const slots = document.querySelectorAll(".slot");
+    const items = document.querySelectorAll(".item");
+
+    // Drag starten
+    items.forEach(item => {
+        item.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("item", item.dataset.item);
+        });
+    });
+
+    // Slot erlaubt Drop
+    slots.forEach(slot => {
+        slot.addEventListener("dragover", e => e.preventDefault());
+
+        slot.addEventListener("drop", e => {
+            const item = e.dataTransfer.getData("item");
+            slot.innerHTML = `<img src="${item}.webp">`;
+            slot.dataset.item = item;
+            checkRecipe();
+        });
+    });
+
+    // Rezeptprüfung für Diamantspitzhacke
+    function checkRecipe() {
+        const grid = Array.from(slots).map(s => s.dataset.item || "");
+
+        const pickaxeRecipe = [
+            "diamond", "diamond", "diamond",
+            "",        "stick",   "",
+            "",        "stick",   ""
+        ];
+
+        if (JSON.stringify(grid) === JSON.stringify(pickaxeRecipe)) {
+            alert("Diamantspitzhacke gecraftet!");
+            window.location.href = "index.html";
+        }
+    }
+</script>
 
 </body>
 </html>
-
