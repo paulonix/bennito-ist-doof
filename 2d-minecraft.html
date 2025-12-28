@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>2D Minecraft</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>2D Minecraft Mini</h1>
+
+  <canvas id="game" width="960" height="540"></canvas>
+
+  <div id="ui">
+    <div id="hotbar">
+      <span data-slot="0" class="slot selected">Erde</span>
+      <span data-slot="1" class="slot">Stein</span>
+      <span data-slot="2" class="slot">Gras</span>
+      <span data-slot="3" class="slot">Holz</span>
+      <span data-slot="4" class="slot">Kohle</span>
+      <span data-slot="5" class="slot">Eisen</span>
+    </div>
+
+    <div id="panels">
+      <div id="inventory-panel">
+        <h2>Inventar</h2>
+        <div id="inventory-grid"></div>
+      </div>
+
+      <div id="crafting-panel">
+        <h2>Crafting 3×3</h2>
+        <div id="crafting-grid"></div>
+        <div id="crafting-result-container">
+          <div id="crafting-result"></div>
+          <button id="craft-button">Craft</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="info">
+      Steuerung: A/D = laufen, W = springen, 1‑6 = Hotbar,  
+      Links = abbauen, Rechts = setzen, I = Inventar/Crafting ein/aus.
+    </p>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
