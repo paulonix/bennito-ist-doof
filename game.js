@@ -98,17 +98,6 @@ function getBlockColor(type) {
     default: return null;
   }
 }
-const textures = {
-  [DIRT]: new Image(),
-  [STONE]: new Image(),
-  [GRASS]: new Image(),
-  [WOOD]: new Image()
-};
-
-textures[DIRT].src = "dirt.jpg";
-textures[STONE].src = "stone.jpg";
-textures[GRASS].src = "grass.webp";
-textures[WOOD].src = "wood.jpg";
 
 
 
