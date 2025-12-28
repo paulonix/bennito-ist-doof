@@ -14,8 +14,8 @@ const GRASS = 3;
 const WOOD = 4;
 
 // Weltgröße
-const WORLD_COLS = 200;
-const WORLD_ROWS = 60;
+const WORLD_COLS = 1000;
+const WORLD_ROWS = 600;
 
 const world = [];
 
@@ -98,6 +98,21 @@ function getBlockColor(type) {
     default: return null;
   }
 }
+const textures = {
+  [DIRT]: new Image(),
+  [STONE]: new Image(),
+  [GRASS]: new Image(),
+  [WOOD]: new Image()
+};
+
+textures[DIRT].src = "dirt.jpg";
+textures[STONE].src = "stone.jpg";
+textures[GRASS].src = "grass.webp";
+textures[WOOD].src = "wood.jpg";
+
+
+
+
 
 function isSolid(x, y) {
   if (x < 0 || x >= WORLD_COLS || y < 0 || y >= WORLD_ROWS) return true;
