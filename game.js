@@ -11,7 +11,25 @@ const WORLD_COLS = 200;
 const WORLD_ROWS = 80;
 
 // Kamera
-const camera = { x: 0, y: 0 };
+function updateCamera() {
+  const targetX = player.x * TILE_SIZE + (player.width * TILE_SIZE) / 2 - canvas.width / 2;
+  const targetY = player.y * TILE_SIZE + (player.height * TILE_SIZE) / 2 - canvas.height / 2;
+
+  const smoothing = 0.15; // je kleiner, desto weicher
+  camera.x += (targetX - camera.x) * smoothing;
+  camera.y += (targetY - camera.y) * smoothing;
+
+  // Begrenzung an Weltgrenzen
+  if (camera.x < 0) camera.x = 0;
+  if (camera.y < 0) camera.y = 0;
+
+  const maxCamX = WORLD_COLS * TILE_SIZE - canvas.width;
+  const maxCamY = WORLD_ROWS * TILE_SIZE - canvas.height;
+
+  if (camera.x > maxCamX) camera.x = maxCamX;
+  if (camera.y > maxCamY) camera.y = maxCamY;
+}
+
 
 // Block-Typen
 const BLOCK = {
