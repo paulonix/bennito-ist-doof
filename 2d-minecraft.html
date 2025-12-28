@@ -15,7 +15,23 @@
       <span data-slot="1" class="slot">Stein</span>
       <span data-slot="2" class="slot">Gras</span>
       <span data-slot="3" class="slot">Holz</span>
-    </div>
+      </div>
+
+    <style> const textures = {
+  [DIRT]: new Image(),
+  [STONE]: new Image(),
+  [GRASS]: new Image(),
+  [WOOD]: new Image()
+};
+
+textures[DIRT].src = "dirt.jpg";
+textures[STONE].src = "stone.jpg";
+textures[GRASS].src = "grass.webp";
+textures[WOOD].src = "wood.jpg";
+</style>
+  
+
+    
     <p>Steuerung: A/D = laufen, W = springen, 1‑4 = Block wählen, 
        Links = abbauen, Rechts = setzen, Kamera folgt automatisch.</p>
   </div>
@@ -209,8 +225,13 @@ function drawWorld() {
       const screenX = x * TILE_SIZE - camera.x;
       const screenY = y * TILE_SIZE - camera.y;
 
-      ctx.fillStyle = color;
-      ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE);
+      if (textures[type].complete) {
+  ctx.drawImage(textures[type], screenX, screenY, TILE_SIZE, TILE_SIZE);
+} else {
+  ctx.fillStyle = color;
+  ctx.fillRect(screenX, screenY, TILE_SIZE, TILE_SIZE);
+}
+
     }
   }
 }
